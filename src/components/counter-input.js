@@ -18,43 +18,57 @@ class CounterInput extends React.Component {
       return
     }
 
-    if (newText > this.max) {
+    if (newText === '-') {
+      this.setState(() => ({ current: '-' }))
+      return
+    }
+
+    if (newText === '') {
+      this.setState(() => ({ current: '' }))
+      return
+    }
+
+    if (parseInt(newText, 10) > this.max) {
       this.setState(() => ({ current: this.max }))
 
       return
     }
 
-    if (newText < this.min) {
+    if (parseInt(newText, 10) < this.min) {
       this.setState(() => ({ current: this.min }))
 
       return
     }
 
-    this.setState(() => ({ current: newText }))
+    this.setState(() => ({
+      current: parseInt(newText, 10),
+    }))
   }
 
   increase = () => {
     if (
       this.state.current >= this.max ||
-      this.state.current === '' ||
-      this.state.current === '-'
-    )
+      typeof this.state.current !== 'number'
+    ) {
       return
+    }
 
     this.setState((prevState) => ({
-      current: parseInt(prevState.current, 10) + 1,
+      current: prevState.current + 1,
     }))
   }
 
   decrease = () => {
     if (
       this.state.current <= this.min ||
-      this.state.current === '' ||
-      this.state.current === '-'
-    )
+      typeof this.state.current !== 'number'
+    ) {
       return
+    }
 
-    this.setState((prevState) => ({ current: +prevState.current - 1 }))
+    this.setState((prevState) => ({
+      current: prevState.current - 1,
+    }))
   }
 
   render() {

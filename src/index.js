@@ -12,3 +12,4 @@ root.render(
     <CounterInput min={-5} max={50} />
   </React.StrictMode>
 )
+
