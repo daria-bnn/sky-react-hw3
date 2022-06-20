@@ -11,38 +11,33 @@ class CounterInput extends React.Component {
   }
 
   onChange = (event) => {
-    const newText = event.target.value
-    const validNumbers = /^-?[1-9]?\d*$/
+    const { value } = event.target
+    const validValues = /^-?[1-9]?\d*$/
 
-    if (!validNumbers.test(newText)) {
+    if (!validValues.test(value)) {
       return
     }
 
-    if (newText === '-') {
-      this.setState(() => ({ current: '-' }))
+    const newText = parseInt(value, 10)
+
+    if (Number.isNaN(newText)) {
+      this.setState(() => ({ current: value }))
       return
     }
 
-    if (newText === '') {
-      this.setState(() => ({ current: '' }))
-      return
-    }
-
-    if (parseInt(newText, 10) > this.max) {
+    if (newText > this.max) {
       this.setState(() => ({ current: this.max }))
 
       return
     }
 
-    if (parseInt(newText, 10) < this.min) {
+    if (newText < this.min) {
       this.setState(() => ({ current: this.min }))
 
       return
     }
 
-    this.setState(() => ({
-      current: parseInt(newText, 10),
-    }))
+    this.setState(() => ({ current: newText }))
   }
 
   increase = () => {
